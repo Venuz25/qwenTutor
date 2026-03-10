@@ -1,9 +1,16 @@
+# PyTorch con CUDA 11.8
 torch>=2.1.0
-transformers>=4.45.0
-datasets>=2.14.0
-accelerate>=0.24.0
-peft>=0.5.0
-bitsandbytes>=0.45.0
-trl>=0.7.0
-scipy
-numpy
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Transformers y librerías relacionadas (versiones compatibles)
+transformers==4.44.0
+datasets==2.20.0
+trl==0.9.4
+peft==0.11.1
+bitsandbytes==0.45.0
+accelerate==0.31.0
+
+# Dependencias adicionales
+scipy>=1.11.0
+numpy>=1.24.0
