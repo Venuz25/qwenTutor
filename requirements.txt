@@ -1,4 +1,4 @@
-# PyTorch con CUDA 11.8
+# PyTorch con CUDA 12.1 (para Python 3.11)
 torch>=2.1.0
 torchvision>=0.16.0
 torchaudio>=2.1.0
@@ -14,3 +14,5 @@ accelerate==0.31.0
 # Dependencias adicionales
 scipy>=1.11.0
 numpy>=1.24.0
+ipykernel>=6.25.0
+rich>=14.0.0
