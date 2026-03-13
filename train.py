@@ -7,7 +7,7 @@ from trl import SFTTrainer
 
 # ================= CONFIGURACIÓN =================
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
-DATASET_PATH = "./data/dataset_algoritmia/train_dataset.jsonl"
+DATASET_PATH = "./data/dataset_algoritmia/train_dataset_clean.jsonl"
 OUTPUT_DIR = "./models/qwen-algo-tutor-1.5b"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -68,14 +68,14 @@ print(f"   ✓ Ejemplos evaluación: {len(dataset['test'])}")
 print("\nConfigurando entrenamiento...")
 training_arguments = TrainingArguments(
     output_dir=OUTPUT_DIR,
-    num_train_epochs=2,
+    num_train_epochs=3,
     per_device_train_batch_size=1,
     gradient_accumulation_steps=8,
     optim="paged_adamw_32bit",
     save_steps=100,
     save_total_limit=2,
     logging_steps=10,
-    learning_rate=1e-4,
+    learning_rate=2e-4,
     fp16=True,
     max_grad_norm=0.3,
     warmup_ratio=0.03,
