@@ -2,3 +2,4 @@ qwen-env/
 documentos/
 
 create-data/datasets-base/
+create-data/generar_datos.py
