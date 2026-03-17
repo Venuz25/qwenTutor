@@ -7,10 +7,10 @@ from google.genai import types
 from google.genai.errors import APIError
 
 # 1. Configuración
-cliente = genai.Client(api_key="AIzaSyCEfTkPNqjHdFgXDMjsJzYdIj96x0EtAyA")
+cliente = genai.Client(api_key="")
 modelo_elegido = "gemini-2.5-flash"
-input_dir = "./create data/filtered_datasets"
-output_file = "./data/dataset_algoritmia/train_dataset.jsonl"
+input_dir = "./create-data/filtered_datasets"
+output_file = "./data/train_dataset.jsonl"
 
 prompt_maestro = """
 Eres un experto creador de datasets de entrenamiento. Tu tarea es leer un problema de programación y su solución, y transformarlo en un diálogo socrático de 4 turnos en español.
@@ -101,9 +101,8 @@ for file_path in input_files:
                 except APIError as e:
                     # Capturamos el error de Google y buscamos si es el 429
                     if e.code == 429:
-                        print(f"Límite de cuota alcanzado en el ejemplo {contador_actual}. Pausando 60 segundos...")
-                        # Pausamos un minuto completo para darle tiempo a la API de reiniciar la cuota
-                        time.sleep(60) 
+                        print(f"Límite de cuota alcanzado en el ejemplo {contador_actual}. Pausando por 10 minutos...")
+                        time.sleep(600) 
                     else:
                         print(f"Error de API inesperado en ejemplo {contador_actual}: {e.message}")
                         reintentos += 1
