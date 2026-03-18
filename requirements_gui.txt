@@ -1,18 +1,14 @@
-# Dependencias base
-torch>=2.1.0
-transformers==4.44.0
-peft==0.11.1
-bitsandbytes==0.45.0
-accelerate==0.31.0
-
-# Interfaz gráfica (versiones compatibles)
-gradio==4.29.0
-gradio-client==0.16.1
+# Frontend Streamlit
+streamlit==1.32.0
+streamlit-chat==0.1.1
+streamlit-modal==0.1.0
 
 # Ejecución de código
 ipykernel>=6.0.0
 nbconvert>=7.0.0
 nbformat>=5.0.0
+requests>=2.31.0
 
 # Utilidades
+sqlite3
 json5>=0.9.0
