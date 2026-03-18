@@ -2,7 +2,14 @@ import json
 import os
 import sqlite3
 from datetime import datetime
-from app.config import DB_PATH
+from pathlib import Path
+import sys
+
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from config import DB_PATH
 
 class ChatHistory:
     """Gestiona historial de chats con persistencia SQLite."""

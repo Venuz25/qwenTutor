@@ -1,9 +1,7 @@
-# app/config.py
 from pathlib import Path
 
 # Usar __file__ para rutas absolutas
-APP_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = APP_DIR.parent
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 # Rutas
 DATA_DIR = PROJECT_ROOT / "data"

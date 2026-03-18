@@ -1,42 +1,27 @@
 import sys
-import os
 from pathlib import Path
-import importlib.util
 
-current_file = Path(__file__).resolve().absolute()
-project_root = current_file.parent.parent.parent  # qwenTutor/
+# Agregar raíz del proyecto al path
+project_root = Path(__file__).resolve().parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
-def import_from_path(module_name, file_path):
-    """Importa un módulo desde una ruta absoluta, sin depender de paquetes."""
-    spec = importlib.util.spec_from_file_location(module_name, str(file_path))
-    if spec is None or spec.loader is None:
-        raise ImportError(f"No se pudo cargar {module_name} desde {file_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module  # Registrar en sys.modules
-    spec.loader.exec_module(module)
-    return module
+# Agregar modules/ al path para imports directos
+modules_path = project_root / "modules"
+if str(modules_path) not in sys.path:
+    sys.path.insert(0, str(modules_path))
 
-backend_dir = project_root / "app" / "backend"
-
-model_loader = import_from_path("model_loader", backend_dir / "model_loader.py")
-prompt_filter = import_from_path("prompt_filter", backend_dir / "prompt_filter.py")
-code_compiler = import_from_path("code_compiler", backend_dir / "code_compiler.py")
-chat_history = import_from_path("chat_history", backend_dir / "chat_history.py")
-
-# Importar config
-config = import_from_path("config", project_root / "app" / "config.py")
-
-# Extraer clases y constantes
-ModelLoader = model_loader.ModelLoader
-PromptFilter = prompt_filter.PromptFilter
-CodeCompiler = code_compiler.CodeCompiler
-ChatHistory = chat_history.ChatHistory
-STREAMLIT_PORT = config.STREAMLIT_PORT
-STREAMLIT_ADDRESS = config.STREAMLIT_ADDRESS
-STREAMLIT_THEME = config.STREAMLIT_THEME
-ADAPTER_PATH = config.ADAPTER_PATH
-
+# ================= IMPORTS DIRECTOS (sin 'app.') =================
 import streamlit as st
+
+# Importar directamente desde modules/
+from model_loader import ModelLoader
+from prompt_filter import PromptFilter
+from code_compiler import CodeCompiler
+from chat_history import ChatHistory
+
+# Config desde raíz
+from config import STREAMLIT_PORT, STREAMLIT_ADDRESS, STREAMLIT_THEME, ADAPTER_PATH
 
 # ================= CONFIGURACIÓN DE PÁGINA =================
 st.set_page_config(

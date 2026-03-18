@@ -2,8 +2,14 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import PeftModel
+from pathlib import Path
+import sys
 
-from app.config import MODEL_NAME, ADAPTER_PATH
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from config import MODEL_NAME, ADAPTER_PATH
 
 class ModelLoader:
     """Carga y gestiona el modelo fine-tuneado."""
