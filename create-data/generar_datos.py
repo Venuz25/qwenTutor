@@ -7,10 +7,7 @@ from google.genai import types
 from google.genai.errors import APIError
 
 # 1. Configuración
-cliente = genai.Client(api_key="AIzaSyDqgYxSfGY-r7NN2kZ7Z2JfSrSE-ZW_dlk")
-# AIzaSyDqgYxSfGY-r7NN2kZ7Z2JfSrSE-ZW_dlk
-# AIzaSyC9qpGXH8_-UWn_pvvmI5Lg_R6apdXlRd4
-
+cliente = genai.Client(api_key="")
 modelo_elegido = "gemini-2.5-flash"
 input_dir = "./create-data/filtered_datasets"
 output_file = "./data/train_dataset.jsonl"
