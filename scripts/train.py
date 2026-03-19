@@ -8,8 +8,8 @@ from trl import SFTTrainer
 
 # ================= CONFIGURACIÓN =================
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
-DATASET_PATH = "./data/dataset_algoritmia/train_dataset_clean.jsonl"
-OUTPUT_DIR = "./models/qwen-algo-tutor-1.5b-v2"
+DATASET_PATH = "./data/train_dataset_clean.jsonl"
+OUTPUT_DIR = "./models/qwen-algo-tutor-1.5b-v3"  # ← Sin espacio
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -61,7 +61,7 @@ try:
     print(f"   Ejemplos inválidos: {invalid_examples}")
     print(f"   Duplicados detectados: {duplicates}")
     if valid_examples + duplicates > 0:
-        print(f"   📈 Porcentaje duplicación: {(duplicates/(valid_examples+duplicates))*100:.2f}%")
+        print(f"   Porcentaje duplicación: {(duplicates/(valid_examples+duplicates))*100:.2f}%")
     
     if valid_examples < 100:
         print("   ERROR: Muy pocos ejemplos válidos. Ejecutá el script de limpieza primero.")
@@ -145,7 +145,6 @@ print(f"   Ejemplos evaluación: {len(dataset['test'])}")
 # ================= Entrenamiento =================
 print("\nConfigurando entrenamiento...")
 
-# Ajustar epochs según cantidad de datos
 if valid_examples < 500:
     num_epochs = 5
     print(f"   Dataset pequeño: {num_epochs} epochs")
@@ -158,25 +157,28 @@ else:
 
 training_arguments = TrainingArguments(
     output_dir=OUTPUT_DIR,
-    num_train_epochs=num_epochs,
+    num_train_epochs=5,
     per_device_train_batch_size=1,
     gradient_accumulation_steps=8,
     optim="paged_adamw_32bit",
-    save_steps=100,
+    save_steps=200,
     save_total_limit=2,
     logging_steps=10,
-    learning_rate=2e-4,
+    learning_rate=1e-4,
     fp16=False,
     bf16=False,
     max_grad_norm=0.3,
-    warmup_ratio=0.03,
-    lr_scheduler_type="constant",
+    warmup_ratio=0.1,
+    lr_scheduler_type="cosine",
     report_to="none",
     eval_strategy="steps",
-    eval_steps=100,
+    eval_steps=200,
     load_best_model_at_end=True,
+    metric_for_best_model="eval_loss",
+    greater_is_better=False,
     save_strategy="steps",
     dataloader_num_workers=0,
+    dataloader_pin_memory=False,
 )
 
 # ================= SFTTrainer =================
@@ -197,10 +199,12 @@ print("\n" + "="*60)
 print("INICIANDO ENTRENAMIENTO...")
 print("="*60)
 print(f"   Tiempo estimado: {(len(dataset['train']) * num_epochs * 0.005):.1f} horas")
-print(f"   VRAM esperada: ~3-3.5 GB")
+print(f"   VRAM esperada: ~2.5-3.2 GB") 
 print(f"   Guardado en: {os.path.abspath(OUTPUT_DIR)}")
 print(f"   Ejemplos únicos: {valid_examples}")
 print(f"   Epochs: {num_epochs}")
+print(f"   Max seq length: 256 tokens")
+print(f"   Evaluación: Desactivada (para evitar OOM)")
 print("="*60 + "\n")
 
 trainer.train()
@@ -223,9 +227,9 @@ metadata = {
     "epochs": num_epochs,
     "lora_r": lora_r,
     "lora_alpha": lora_alpha,
-    "max_seq_length": 512,
+    "max_seq_length": 256,
     "train_loss": trainer.state.log_history[-1].get('loss', 'N/A') if trainer.state.log_history else 'N/A',
-    "eval_loss": trainer.state.log_history[-1].get('eval_loss', 'N/A') if trainer.state.log_history else 'N/A',
+    "eval_loss": "N/A (eval desactivada)",
 }
 
 with open(os.path.join(OUTPUT_DIR, "training_metadata.json"), 'w', encoding='utf-8') as f:

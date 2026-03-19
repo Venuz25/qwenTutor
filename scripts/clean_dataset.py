@@ -2,8 +2,8 @@ import json
 import os
 
 # ================= CONFIGURACIÓN =================
-INPUT_PATH = './data/dataset_algoritmia/train_dataset.jsonl'
-OUTPUT_PATH = './data/dataset_algoritmia/train_dataset_clean.jsonl'
+INPUT_PATH = './data/train_dataset.jsonl'
+OUTPUT_PATH = './data/train_dataset_clean.jsonl'
 
 # ================= VERIFICAR ARCHIVO =================
 if not os.path.exists(INPUT_PATH):

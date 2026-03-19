@@ -8,7 +8,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 DATASET_PATH = DATA_DIR / "dataset_algoritmia" / "train_dataset_clean.jsonl"
 DB_PATH = DATA_DIR / "chat_history.db"
 MODELS_DIR = PROJECT_ROOT / "models"
-ADAPTER_PATH = MODELS_DIR / "qwen-algo-tutor-1.5b-v2"
+ADAPTER_PATH = MODELS_DIR / "qwen-algo-tutor-1.5b-v3"
 
 # Configuración
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"

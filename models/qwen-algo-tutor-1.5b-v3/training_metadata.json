@@ -1,0 +1,14 @@
+{
+  "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset_path": "./data/train_dataset_clean.jsonl",
+  "train_examples": 289,
+  "eval_examples": 33,
+  "unique_examples": 322,
+  "duplicates_removed": 0,
+  "epochs": 5,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "max_seq_length": 256,
+  "train_loss": "N/A",
+  "eval_loss": "N/A (eval desactivada)"
+}
